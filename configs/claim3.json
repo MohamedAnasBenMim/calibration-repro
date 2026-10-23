@@ -1,0 +1,4 @@
+{
+  "logits_dir": "results/claim1",
+  "models": ["lenet5", "resnet8"]
+}

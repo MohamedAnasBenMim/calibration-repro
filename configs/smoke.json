@@ -1,0 +1,23 @@
+{
+  "claim1": {
+    "num_threads": 2,
+    "data": {"n_val": 500, "split_seed": 0, "test_subset": 500},
+    "runs": [
+      {"name": "lenet5", "model": "lenet5", "epochs": 1, "lr": 0.02, "weight_decay": 0.0005, "train_subset": 1000},
+      {"name": "resnet8", "model": "resnet", "model_kwargs": {"depth": 8, "width": 4}, "epochs": 1, "train_subset": 1000}
+    ]
+  },
+  "claim2": {
+    "num_threads": 2,
+    "data": {"n_val": 500, "split_seed": 0, "test_subset": 500},
+    "base": {"model": "resnet", "model_kwargs": {"depth": 8, "width": 4}, "epochs": 1,
+             "train_subset": 500, "eval_test_every_epoch": false},
+    "groups": [
+      {"factor": "depth", "key": "depth", "values": [8, 14]},
+      {"factor": "batch norm", "key": "bn", "values": [false, true],
+       "base_overrides": {"model": "convnet", "model_kwargs": {"width": 4}, "lr": 0.05}},
+      {"factor": "weight decay", "key": "weight_decay", "values": [0.0, 0.001]}
+    ]
+  },
+  "claim3": {"models": ["lenet5", "resnet8"]}
+}

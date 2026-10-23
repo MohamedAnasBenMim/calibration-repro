@@ -1,0 +1,29 @@
+{
+  "num_threads": 2,
+  "data": {"n_val": 5000, "split_seed": 0},
+  "runs": [
+    {
+      "name": "lenet5",
+      "label": "LeNet-5 (no BN, wd 5e-4)",
+      "model": "lenet5",
+      "epochs": 15,
+      "batch_size": 128,
+      "lr": 0.02,
+      "momentum": 0.9,
+      "weight_decay": 0.0005,
+      "seed": 0
+    },
+    {
+      "name": "resnet8",
+      "label": "ResNet-8 (BN, no wd)",
+      "model": "resnet",
+      "model_kwargs": {"depth": 8, "width": 16, "bn": true},
+      "epochs": 15,
+      "batch_size": 128,
+      "lr": 0.1,
+      "momentum": 0.9,
+      "weight_decay": 0.0,
+      "seed": 0
+    }
+  ]
+}
