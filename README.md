@@ -1,5 +1,7 @@
 # On Calibration of Modern Neural Networks — a scaled-down reproduction
 
+![CI](https://github.com/MohamedAnasBenMim/calibration-repro/actions/workflows/ci.yml/badge.svg)
+
 A CPU-only, small-scale reproduction of
 
 > Chuan Guo, Geoff Pleiss, Yu Sun, Kilian Q. Weinberger.
