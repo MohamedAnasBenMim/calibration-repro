@@ -86,3 +86,27 @@ def evaluate_probs(probs: np.ndarray, labels: np.ndarray, n_bins: int = 15) -> d
 
 def evaluate_logits(logits: np.ndarray, labels: np.ndarray, n_bins: int = 15) -> dict[str, float]:
     return evaluate_probs(softmax(logits), labels, n_bins)
+
+
+def bootstrap_ece_ci(
+    probs: np.ndarray,
+    labels: np.ndarray,
+    n_boot: int = 1000,
+    alpha: float = 0.05,
+    n_bins: int = 15,
+    seed: int = 0,
+) -> tuple[float, float]:
+    """Percentile bootstrap confidence interval of the ECE (in %) over test samples.
+
+    This only captures test-set sampling noise, not training-seed variance.
+    """
+    rng = np.random.default_rng(seed)
+    conf = probs.max(1)
+    correct = (probs.argmax(1) == labels).astype(np.float64)
+    n = len(labels)
+    stats = np.empty(n_boot)
+    for b in range(n_boot):
+        idx = rng.integers(0, n, n)
+        stats[b] = ece_mce(conf[idx], correct[idx], n_bins)[0]
+    lo, hi = np.quantile(stats, [alpha / 2, 1 - alpha / 2])
+    return 100.0 * float(lo), 100.0 * float(hi)

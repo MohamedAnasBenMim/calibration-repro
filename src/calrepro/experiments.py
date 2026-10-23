@@ -16,7 +16,7 @@ import torch
 
 from .calibration import all_calibrators
 from .data import load_splits
-from .metrics import evaluate_logits, softmax
+from .metrics import bootstrap_ece_ci, evaluate_logits, softmax
 from .plots import factors_figure, reliability_figure, training_curves_figure
 from .train import TrainConfig, TrainResult, train
 
@@ -64,7 +64,7 @@ def run_claim1(cfg: dict, out: Path) -> dict:
     _setup(cfg)
     out.mkdir(parents=True, exist_ok=True)
     splits = _splits(cfg)
-    summary, panels, histories = {}, [], {}
+    summary = {}
     for run in cfg["runs"]:
         tc = TrainConfig.from_dict(run)
         r = train(tc, splits)
@@ -80,16 +80,26 @@ def run_claim1(cfg: dict, out: Path) -> dict:
         }
         _write_csv(out / f"history_{tc.name}.csv", [_round(h, 5) for h in r.history])
         _save_logits(out / f"logits_{tc.name}.npz", r)
-        panels.append((run.get("label", tc.name), softmax(r.test_logits), r.test_labels))
-        histories[run.get("label", tc.name)] = r.history
     (out / "metrics.json").write_text(json.dumps(summary, indent=2))
     _write_csv(
         out / "metrics.csv",
         [{"model": k, **{kk: vv for kk, vv in v.items() if kk != "config"}} for k, v in summary.items()],
     )
+    plot_claim1(cfg, out)
+    return summary
+
+
+def plot_claim1(cfg: dict, out: Path) -> None:
+    """Redraw Fig. 1 and Fig. 3 from the saved logits / histories (no training)."""
+    panels, histories = [], {}
+    for run in cfg["runs"]:
+        name, label = run["name"], run.get("label", run["name"])
+        d = np.load(out / f"logits_{name}.npz")
+        panels.append((label, softmax(d["test_logits"].astype(np.float64)), d["test_labels"]))
+        with open(out / f"history_{name}.csv") as f:
+            histories[label] = [{k: float(v) for k, v in row.items()} for row in csv.DictReader(f)]
     reliability_figure(panels, out / "fig1_reliability.png")
     training_curves_figure(histories, out / "fig3_nll_overfitting.png")
-    return summary
 
 
 # --------------------------------------------------------------------------- claim 2
@@ -142,6 +152,8 @@ def calibrate_logits(val_logits, val_labels, test_logits, test_labels) -> tuple[
         cal.fit(val_logits, val_labels)
         p = cal.predict_proba(test_logits)
         m = evaluate_probs_rounded(p, test_labels)
+        lo, hi = bootstrap_ece_ci(p, test_labels)
+        m["ece_ci95_low"], m["ece_ci95_high"] = round(lo, 4), round(hi, 4)
         if hasattr(cal, "temperature"):
             m["temperature"] = round(cal.temperature, 4)
         rows.append({"method": cal.name, **m})
@@ -157,6 +169,9 @@ def evaluate_probs_rounded(p, y) -> dict:
 
 def run_claim3(cfg: dict, out: Path) -> dict:
     """Post-hoc calibration on the validation split; evaluate on test (Table 1)."""
+    # One thread makes the L-BFGS fits bit-reproducible (multi-threaded float
+    # reductions can move matrix scaling's optimum slightly between machines).
+    torch.set_num_threads(1)
     out.mkdir(parents=True, exist_ok=True)
     logits_dir = Path(cfg["logits_dir"])
     all_rows, result = [], {}
@@ -187,12 +202,17 @@ def _markdown_table1(result: dict[str, list[dict]]) -> str:
     methods = [r["method"] for r in result[models[0]]]
     lines = []
     for metric, title in (("ece", "ECE (%)"), ("error", "Error (%)"), ("nll", "NLL")):
-        lines.append(f"**Test {title}**\n")
+        note = " (95% bootstrap CI over test samples)" if metric == "ece" else ""
+        lines.append(f"**Test {title}**{note}\n")
         lines.append("| Model | " + " | ".join(methods) + " |")
         lines.append("|---" * (len(methods) + 1) + "|")
         for mname in models:
-            vals = {r["method"]: r[metric] for r in result[mname]}
-            fmt = "{:.3f}" if metric == "nll" else "{:.2f}"
-            lines.append(f"| {mname} | " + " | ".join(fmt.format(vals[m]) for m in methods) + " |")
+            cells = []
+            for r in result[mname]:
+                if metric == "ece":
+                    cells.append(f"{r['ece']:.2f} [{r['ece_ci95_low']:.2f}, {r['ece_ci95_high']:.2f}]")
+                else:
+                    cells.append(("{:.3f}" if metric == "nll" else "{:.2f}").format(r[metric]))
+            lines.append(f"| {mname} | " + " | ".join(cells) + " |")
         lines.append("")
     return "\n".join(lines)

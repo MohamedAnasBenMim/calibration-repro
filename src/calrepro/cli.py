@@ -7,7 +7,7 @@ import json
 import tempfile
 from pathlib import Path
 
-from .experiments import run_claim1, run_claim2, run_claim3
+from .experiments import plot_claim1, run_claim1, run_claim2, run_claim3
 
 
 def _load(path: str) -> dict:
@@ -25,6 +25,9 @@ def main(argv: list[str] | None = None) -> None:
         sp = sub.add_parser(name)
         sp.add_argument("--config", default=default_cfg)
         sp.add_argument("--out", default=default_out)
+    sp = sub.add_parser("plot-claim1", help="redraw claim-1 figures from saved logits")
+    sp.add_argument("--config", default="configs/claim1.json")
+    sp.add_argument("--out", default="results/claim1")
     sp = sub.add_parser("smoke", help="tiny end-to-end run of all three claims")
     sp.add_argument("--config", default="configs/smoke.json")
     sp.add_argument("--out", default=None)
@@ -36,6 +39,8 @@ def main(argv: list[str] | None = None) -> None:
         run_claim2(_load(args.config), Path(args.out))
     elif args.cmd == "claim3":
         run_claim3(_load(args.config), Path(args.out))
+    elif args.cmd == "plot-claim1":
+        plot_claim1(_load(args.config), Path(args.out))
     elif args.cmd == "smoke":
         cfg = _load(args.config)
         out = Path(args.out or tempfile.mkdtemp(prefix="calrepro-smoke-"))

@@ -26,7 +26,7 @@ def _conf_hist(ax, conf, correct, n_bins):
     ax.axvline(acc, color="black", ls="--", lw=1.5, label=f"Accuracy ({100 * acc:.1f}%)")
     ax.axvline(avg, color="tab:red", ls="--", lw=1.5, label=f"Avg. confidence ({100 * avg:.1f}%)")
     ax.set_xlim(0, 1)
-    ax.set_ylabel("% of samples")
+    ax.set_ylabel("Fraction of samples")
     ax.legend(fontsize=7, loc="upper left")
 
 
