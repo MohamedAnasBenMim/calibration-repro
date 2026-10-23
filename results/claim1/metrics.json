@@ -1,0 +1,64 @@
+{
+  "lenet5": {
+    "label": "LeNet-5 (no BN, wd 5e-4)",
+    "n_params": 61706,
+    "train_seconds": 127.9,
+    "final_train_loss": 0.17277,
+    "final_train_error": 6.275,
+    "error": 9.6,
+    "nll": 0.2671,
+    "ece": 2.0827,
+    "mce": 31.3503,
+    "avg_confidence": 92.4827,
+    "config": {
+      "name": "lenet5",
+      "model": "lenet5",
+      "model_kwargs": {},
+      "epochs": 15,
+      "batch_size": 128,
+      "lr": 0.02,
+      "momentum": 0.9,
+      "weight_decay": 0.0005,
+      "lr_milestones": [
+        0.5,
+        0.75
+      ],
+      "seed": 0,
+      "train_subset": null,
+      "eval_test_every_epoch": true
+    }
+  },
+  "resnet8": {
+    "label": "ResNet-8 (BN, no wd)",
+    "n_params": 77754,
+    "train_seconds": 954.2,
+    "final_train_loss": 0.09155,
+    "final_train_error": 2.995,
+    "error": 7.37,
+    "nll": 0.2082,
+    "ece": 1.8361,
+    "mce": 30.9286,
+    "avg_confidence": 94.4661,
+    "config": {
+      "name": "resnet8",
+      "model": "resnet",
+      "model_kwargs": {
+        "depth": 8,
+        "width": 16,
+        "bn": true
+      },
+      "epochs": 15,
+      "batch_size": 128,
+      "lr": 0.1,
+      "momentum": 0.9,
+      "weight_decay": 0.0,
+      "lr_milestones": [
+        0.5,
+        0.75
+      ],
+      "seed": 0,
+      "train_subset": null,
+      "eval_test_every_epoch": true
+    }
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "lenet5": [
+    {
+      "method": "Uncalibrated",
+      "error": 9.6,
+      "nll": 0.2671,
+      "ece": 2.0827,
+      "mce": 31.3503,
+      "avg_confidence": 92.4827,
+      "ece_ci95_low": 1.662,
+      "ece_ci95_high": 2.6199
+    },
+    {
+      "method": "Hist. Binning",
+      "error": 9.7,
+      "nll": 0.4394,
+      "ece": 1.4117,
+      "mce": 13.4481,
+      "avg_confidence": 91.7117,
+      "ece_ci95_low": 1.0803,
+      "ece_ci95_high": 2.0179
+    },
+    {
+      "method": "Isotonic",
+      "error": 9.56,
+      "nll": 0.3158,
+      "ece": 1.5561,
+      "mce": 31.1785,
+      "avg_confidence": 91.9224,
+      "ece_ci95_low": 1.2961,
+      "ece_ci95_high": 2.1303
+    },
+    {
+      "method": "Temp. Scaling",
+      "error": 9.6,
+      "nll": 0.2615,
+      "ece": 1.028,
+      "mce": 7.0224,
+      "avg_confidence": 91.428,
+      "ece_ci95_low": 0.8098,
+      "ece_ci95_high": 1.6298,
+      "temperature": 1.124
+    },
+    {
+      "method": "Vector Scaling",
+      "error": 9.54,
+      "nll": 0.2631,
+      "ece": 1.0938,
+      "mce": 13.9521,
+      "avg_confidence": 91.5492,
+      "ece_ci95_low": 0.7916,
+      "ece_ci95_high": 1.6672
+    },
+    {
+      "method": "Matrix Scaling",
+      "error": 9.6,
+      "nll": 0.2911,
+      "ece": 1.4569,
+      "mce": 7.7681,
+      "avg_confidence": 91.7526,
+      "ece_ci95_low": 1.1292,
+      "ece_ci95_high": 2.0272
+    }
+  ],
+  "resnet8": [
+    {
+      "method": "Uncalibrated",
+      "error": 7.37,
+      "nll": 0.2082,
+      "ece": 1.8361,
+      "mce": 30.9286,
+      "avg_confidence": 94.4661,
+      "ece_ci95_low": 1.4621,
+      "ece_ci95_high": 2.2942
+    },
+    {
+      "method": "Hist. Binning",
+      "error": 7.49,
+      "nll": 0.2826,
+      "ece": 1.3676,
+      "mce": 26.5833,
+      "avg_confidence": 93.8482,
+      "ece_ci95_low": 1.0925,
+      "ece_ci95_high": 1.8647
+    },
+    {
+      "method": "Isotonic",
+      "error": 7.33,
+      "nll": 0.2562,
+      "ece": 1.398,
+      "mce": 28.2616,
+      "avg_confidence": 94.0207,
+      "ece_ci95_low": 1.1601,
+      "ece_ci95_high": 1.8997
+    },
+    {
+      "method": "Temp. Scaling",
+      "error": 7.37,
+      "nll": 0.2032,
+      "ece": 0.9734,
+      "mce": 23.4535,
+      "avg_confidence": 93.5627,
+      "ece_ci95_low": 0.719,
+      "ece_ci95_high": 1.4589,
+      "temperature": 1.1318
+    },
+    {
+      "method": "Vector Scaling",
+      "error": 7.49,
+      "nll": 0.2086,
+      "ece": 1.2149,
+      "mce": 24.5418,
+      "avg_confidence": 93.7249,
+      "ece_ci95_low": 0.9,
+      "ece_ci95_high": 1.6726
+    },
+    {
+      "method": "Matrix Scaling",
+      "error": 7.71,
+      "nll": 0.2244,
+      "ece": 1.6735,
+      "mce": 26.6411,
+      "avg_confidence": 93.822,
+      "ece_ci95_low": 1.3671,
+      "ece_ci95_high": 2.1649
+    }
+  ]
+}

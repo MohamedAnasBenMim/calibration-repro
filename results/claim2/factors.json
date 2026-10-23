@@ -1,0 +1,264 @@
+{
+  "config": {
+    "num_threads": 2,
+    "data": {
+      "n_val": 5000,
+      "split_seed": 0
+    },
+    "base": {
+      "model": "resnet",
+      "model_kwargs": {
+        "depth": 8,
+        "width": 8,
+        "bn": true
+      },
+      "epochs": 12,
+      "batch_size": 128,
+      "lr": 0.1,
+      "momentum": 0.9,
+      "weight_decay": 0.0,
+      "seed": 0,
+      "train_subset": 10000,
+      "eval_test_every_epoch": false
+    },
+    "groups": [
+      {
+        "factor": "depth",
+        "key": "depth",
+        "values": [
+          8,
+          14,
+          20
+        ]
+      },
+      {
+        "factor": "width",
+        "key": "width",
+        "values": [
+          4,
+          8,
+          16
+        ]
+      },
+      {
+        "factor": "batch norm",
+        "key": "bn",
+        "values": [
+          false,
+          true
+        ],
+        "base_overrides": {
+          "model": "convnet",
+          "model_kwargs": {
+            "width": 16
+          },
+          "lr": 0.05
+        }
+      },
+      {
+        "factor": "weight decay",
+        "key": "weight_decay",
+        "values": [
+          0.0,
+          0.0001,
+          0.001,
+          0.01
+        ]
+      }
+    ]
+  },
+  "rows": [
+    {
+      "factor": "depth",
+      "value": 8,
+      "error": 12.34,
+      "nll": 0.3529,
+      "ece": 0.5591,
+      "mce": 25.2651,
+      "avg_confidence": 87.6394,
+      "final_train_loss": 0.27405,
+      "final_train_error": 10.04,
+      "n_params": 19810,
+      "train_seconds": 85.4,
+      "model": "resnet",
+      "model_kwargs": "{\"bn\": true, \"depth\": 8, \"width\": 8}",
+      "weight_decay": 0.0
+    },
+    {
+      "factor": "depth",
+      "value": 14,
+      "error": 11.36,
+      "nll": 0.3173,
+      "ece": 0.8018,
+      "mce": 10.4687,
+      "avg_confidence": 89.4151,
+      "final_train_loss": 0.23186,
+      "final_train_error": 8.5,
+      "n_params": 44226,
+      "train_seconds": 91.9,
+      "model": "resnet",
+      "model_kwargs": "{\"bn\": true, \"depth\": 14, \"width\": 8}",
+      "weight_decay": 0.0
+    },
+    {
+      "factor": "depth",
+      "value": 20,
+      "error": 11.04,
+      "nll": 0.3027,
+      "ece": 1.5139,
+      "mce": 9.5293,
+      "avg_confidence": 90.3951,
+      "final_train_loss": 0.21002,
+      "final_train_error": 7.62,
+      "n_params": 68642,
+      "train_seconds": 123.8,
+      "model": "resnet",
+      "model_kwargs": "{\"bn\": true, \"depth\": 20, \"width\": 8}",
+      "weight_decay": 0.0
+    },
+    {
+      "factor": "width",
+      "value": 4,
+      "error": 15.16,
+      "nll": 0.42,
+      "ece": 1.1136,
+      "mce": 12.0093,
+      "avg_confidence": 84.3109,
+      "final_train_loss": 0.36223,
+      "final_train_error": 13.34,
+      "n_params": 5142,
+      "train_seconds": 34.7,
+      "model": "resnet",
+      "model_kwargs": "{\"bn\": true, \"depth\": 8, \"width\": 4}",
+      "weight_decay": 0.0
+    },
+    {
+      "factor": "width",
+      "value": 8,
+      "error": 12.34,
+      "nll": 0.3529,
+      "ece": 0.5591,
+      "mce": 25.2651,
+      "avg_confidence": 87.6394,
+      "final_train_loss": 0.27405,
+      "final_train_error": 10.04,
+      "n_params": 19810,
+      "train_seconds": 85.4,
+      "model": "resnet",
+      "model_kwargs": "{\"bn\": true, \"depth\": 8, \"width\": 8}",
+      "weight_decay": 0.0
+    },
+    {
+      "factor": "width",
+      "value": 16,
+      "error": 11.74,
+      "nll": 0.3227,
+      "ece": 1.0028,
+      "mce": 5.0681,
+      "avg_confidence": 89.2215,
+      "final_train_loss": 0.20598,
+      "final_train_error": 7.14,
+      "n_params": 77754,
+      "train_seconds": 94.8,
+      "model": "resnet",
+      "model_kwargs": "{\"bn\": true, \"depth\": 8, \"width\": 16}",
+      "weight_decay": 0.0
+    },
+    {
+      "factor": "batch norm",
+      "value": false,
+      "error": 19.64,
+      "nll": 0.5656,
+      "ece": 2.186,
+      "mce": 7.7882,
+      "avg_confidence": 78.4901,
+      "final_train_loss": 0.53924,
+      "final_train_error": 18.82,
+      "n_params": 35514,
+      "train_seconds": 43.6,
+      "model": "convnet",
+      "model_kwargs": "{\"bn\": false, \"width\": 16}",
+      "weight_decay": 0.0
+    },
+    {
+      "factor": "batch norm",
+      "value": true,
+      "error": 12.72,
+      "nll": 0.3486,
+      "ece": 1.28,
+      "mce": 25.1058,
+      "avg_confidence": 86.989,
+      "final_train_loss": 0.27677,
+      "final_train_error": 9.67,
+      "n_params": 35674,
+      "train_seconds": 54.3,
+      "model": "convnet",
+      "model_kwargs": "{\"bn\": true, \"width\": 16}",
+      "weight_decay": 0.0
+    },
+    {
+      "factor": "weight decay",
+      "value": 0.0,
+      "error": 12.34,
+      "nll": 0.3529,
+      "ece": 0.5591,
+      "mce": 25.2651,
+      "avg_confidence": 87.6394,
+      "final_train_loss": 0.27405,
+      "final_train_error": 10.04,
+      "n_params": 19810,
+      "train_seconds": 85.4,
+      "model": "resnet",
+      "model_kwargs": "{\"bn\": true, \"depth\": 8, \"width\": 8}",
+      "weight_decay": 0.0
+    },
+    {
+      "factor": "weight decay",
+      "value": 0.0001,
+      "error": 13.02,
+      "nll": 0.366,
+      "ece": 0.7435,
+      "mce": 4.8603,
+      "avg_confidence": 86.8396,
+      "final_train_loss": 0.2933,
+      "final_train_error": 10.95,
+      "n_params": 19810,
+      "train_seconds": 50.4,
+      "model": "resnet",
+      "model_kwargs": "{\"bn\": true, \"depth\": 8, \"width\": 8}",
+      "weight_decay": 0.0001
+    },
+    {
+      "factor": "weight decay",
+      "value": 0.001,
+      "error": 12.83,
+      "nll": 0.3584,
+      "ece": 0.9982,
+      "mce": 15.5811,
+      "avg_confidence": 86.4809,
+      "final_train_loss": 0.29767,
+      "final_train_error": 10.62,
+      "n_params": 19810,
+      "train_seconds": 50.0,
+      "model": "resnet",
+      "model_kwargs": "{\"bn\": true, \"depth\": 8, \"width\": 8}",
+      "weight_decay": 0.001
+    },
+    {
+      "factor": "weight decay",
+      "value": 0.01,
+      "error": 13.81,
+      "nll": 0.4102,
+      "ece": 6.1535,
+      "mce": 19.26,
+      "avg_confidence": 80.0485,
+      "final_train_loss": 0.38522,
+      "final_train_error": 12.47,
+      "n_params": 19810,
+      "train_seconds": 48.6,
+      "model": "resnet",
+      "model_kwargs": "{\"bn\": true, \"depth\": 8, \"width\": 8}",
+      "weight_decay": 0.01
+    }
+  ]
+}
